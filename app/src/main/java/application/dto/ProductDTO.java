@@ -1,12 +1,56 @@
-package application.service;
+package application.dto;
 
-import application.dto.ProductDTO;
-import java.util.List;
+import java.math.BigDecimal;
 
-public interface ProductService {
-    List<ProductDTO> getAllProducts();
-    ProductDTO getProductById(String id);
-    void saveProduct(ProductDTO productDTO);
-    void updateProduct(String id, ProductDTO productDTO);
-    void deleteProduct(String id);
+public class ProductDTO {
+    private String productId;
+    private String productCategoryName;
+    private Integer productNameLength;
+    private Integer productDescriptionLength;
+    private Integer productPhotosQty;
+    private BigDecimal productWeightG;
+    private BigDecimal productLengthCm;
+    private BigDecimal productHeightCm;
+    private BigDecimal productWidthCm;
+
+    public ProductDTO() {}
+
+    public ProductDTO(String productId, String productCategoryName, Integer productNameLength, Integer productDescriptionLength, Integer productPhotosQty, BigDecimal productWeightG, BigDecimal productLengthCm, BigDecimal productHeightCm, BigDecimal productWidthCm) {
+        this.productId = productId;
+        this.productCategoryName = productCategoryName;
+        this.productNameLength = productNameLength;
+        this.productDescriptionLength = productDescriptionLength;
+        this.productPhotosQty = productPhotosQty;
+        this.productWeightG = productWeightG;
+        this.productLengthCm = productLengthCm;
+        this.productHeightCm = productHeightCm;
+        this.productWidthCm = productWidthCm;
+    }
+
+    public String getProductId() { return productId; }
+    public void setProductId(String productId) { this.productId = productId; }
+
+    public String getProductCategoryName() { return productCategoryName; }
+    public void setProductCategoryName(String productCategoryName) { this.productCategoryName = productCategoryName; }
+
+    public Integer getProductNameLength() { return productNameLength; }
+    public void setProductNameLength(Integer productNameLength) { this.productNameLength = productNameLength; }
+
+    public Integer getProductDescriptionLength() { return productDescriptionLength; }
+    public void setProductDescriptionLength(Integer productDescriptionLength) { this.productDescriptionLength = productDescriptionLength; }
+
+    public Integer getProductPhotosQty() { return productPhotosQty; }
+    public void setProductPhotosQty(Integer productPhotosQty) { this.productPhotosQty = productPhotosQty; }
+
+    public BigDecimal getProductWeightG() { return productWeightG; }
+    public void setProductWeightG(BigDecimal productWeightG) { this.productWeightG = productWeightG; }
+
+    public BigDecimal getProductLengthCm() { return productLengthCm; }
+    public void setProductLengthCm(BigDecimal productLengthCm) { this.productLengthCm = productLengthCm; }
+
+    public BigDecimal getProductHeightCm() { return productHeightCm; }
+    public void setProductHeightCm(BigDecimal productHeightCm) { this.productHeightCm = productHeightCm; }
+
+    public BigDecimal getProductWidthCm() { return productWidthCm; }
+    public void setProductWidthCm(BigDecimal productWidthCm) { this.productWidthCm = productWidthCm; }
 }

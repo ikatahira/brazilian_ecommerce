@@ -1,51 +1,34 @@
-package application.service.impl;
+package application.dto;
 
-import application.dto.CustomerDTO;
-import application.mapper.CustomerMapper;
-import application.model.Customer;
-import application.repository.CustomerRepository;
-import application.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+public class CustomerDTO {
+    private String customerId;
+    private String customerUniqueId;
+    private int customerZipCodePrefix;
+    private String customerCity;
+    private String customerState;
 
-import java.util.List;
-import java.util.stream.Collectors;
+    public CustomerDTO() {}
 
-@Service
-public class CustomerServiceImpl implements CustomerService {
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Override
-    public List<CustomerDTO> getAllCustomers() {
-        List<Customer> customers = customerRepository.findAll();
-        return customers.stream()
-                .map(CustomerMapper::toDTO)
-                .collect(Collectors.toList());
+    public CustomerDTO(String customerId, String customerUniqueId, int customerZipCodePrefix, String customerCity, String customerState) {
+        this.customerId = customerId;
+        this.customerUniqueId = customerUniqueId;
+        this.customerZipCodePrefix = customerZipCodePrefix;
+        this.customerCity = customerCity;
+        this.customerState = customerState;
     }
 
-    @Override
-    public CustomerDTO getCustomerById(String id) {
-        Customer customer = customerRepository.findById(id).orElse(null);
-        return CustomerMapper.toDTO(customer);
-    }
+    public String getCustomerId() { return customerId; }
+    public void setCustomerId(String customerId) { this.customerId = customerId; }
 
-    @Override
-    public void saveCustomer(CustomerDTO customerDTO) {
-        Customer customer = CustomerMapper.toEntity(customerDTO);
-        customerRepository.save(customer);
-    }
+    public String getCustomerUniqueId() { return customerUniqueId; }
+    public void setCustomerUniqueId(String customerUniqueId) { this.customerUniqueId = customerUniqueId; }
 
-    @Override
-    public void updateCustomer(String id, CustomerDTO customerDTO) {
-        Customer customer = CustomerMapper.toEntity(customerDTO);
-        customer.setCustomerId(id);
-        customerRepository.save(customer);
-    }
+    public int getCustomerZipCodePrefix() { return customerZipCodePrefix; }
+    public void setCustomerZipCodePrefix(int customerZipCodePrefix) { this.customerZipCodePrefix = customerZipCodePrefix; }
 
-    @Override
-    public void deleteCustomer(String id) {
-        customerRepository.deleteById(id);
-    }
+    public String getCustomerCity() { return customerCity; }
+    public void setCustomerCity(String customerCity) { this.customerCity = customerCity; }
+
+    public String getCustomerState() { return customerState; }
+    public void setCustomerState(String customerState) { this.customerState = customerState; }
 }

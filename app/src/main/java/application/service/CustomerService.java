@@ -1,11 +1,12 @@
 package application.service;
 
-import application.model.Customer;
+import application.dto.CustomerDTO;
 import java.util.List;
 
 public interface CustomerService {
-    List<Customer> getAllCustomers();
-    Customer getCustomerById(String id);
-    void saveCustomer(Customer customer);
+    List<CustomerDTO> getAllCustomers();
+    CustomerDTO getCustomerById(String id);
+    void saveCustomer(CustomerDTO customerDTO);
+    void updateCustomer(String id, CustomerDTO customerDTO);
     void deleteCustomer(String id);
 }

@@ -1,15 +1,15 @@
 package application.controller;
 
-import application.model.Product;
+import application.dto.ProductDTO;
 import application.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/products")
 public class ProductController {
 
@@ -17,53 +17,36 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public String getAllProducts(Model model) {
-        List<Product> products = productService.getAllProducts();
-        model.addAttribute("products", products);
-        return "product-list";
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        List<ProductDTO> products = productService.getAllProducts();
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public String getProductById(@PathVariable String id, Model model) {
-        Product product = productService.getProductById(id);
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable String id) {
+        ProductDTO product = productService.getProductById(id);
         if (product != null) {
-            model.addAttribute("product", product);
-            return "product-detail";
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return "redirect:/products";
     }
 
-    @GetMapping("/create")
-    public String createProductForm(Model model) {
-        model.addAttribute("product", new Product());
-        return "product-form";
+    @PostMapping
+    public ResponseEntity<ProductDTO> saveProduct(@RequestBody ProductDTO productDTO) {
+        productService.saveProduct(productDTO);
+        return new ResponseEntity<>(productDTO, HttpStatus.CREATED);
     }
 
-    @PostMapping("/create")
-    public String createProduct(@ModelAttribute Product product) {
-        productService.saveProduct(product);
-        return "redirect:/products";
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable String id, @RequestBody ProductDTO productDTO) {
+        productService.updateProduct(id, productDTO);
+        return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/edit/{id}")
-    public String editProductForm(@PathVariable String id, Model model) {
-        Product product = productService.getProductById(id);
-        if (product != null) {
-            model.addAttribute("product", product);
-            return "product-form";
-        }
-        return "redirect:/products";
-    }
-
-    @PostMapping("/edit")
-    public String editProduct(@ModelAttribute Product product) {
-        productService.saveProduct(product);
-        return "redirect:/products";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable String id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable String id) {
         productService.deleteProduct(id);
-        return "redirect:/products";
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

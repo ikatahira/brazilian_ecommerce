@@ -1,42 +1,51 @@
-package application.dto;
+package application.service.impl;
 
-public class CustomerDTO {
-    private String id;
-    private String name;
-    private String email;
+import application.dto.CustomerDTO;
+import application.mapper.CustomerMapper;
+import application.model.Customer;
+import application.repository.CustomerRepository;
+import application.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-    // Construtor padrão
-    public CustomerDTO() {}
+import java.util.List;
+import java.util.stream.Collectors;
 
-    // Construtor com todos os campos
-    public CustomerDTO(String id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
+@Service
+public class CustomerServiceImpl implements CustomerService {
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Override
+    public List<CustomerDTO> getAllCustomers() {
+        List<Customer> customers = customerRepository.findAll();
+        return customers.stream()
+                .map(CustomerMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    // Getters e Setters
-    public String getId() {
-        return id;
+    @Override
+    public CustomerDTO getCustomerById(String id) {
+        Customer customer = customerRepository.findById(id).orElse(null);
+        return CustomerMapper.toDTO(customer);
     }
 
-    public void setId(String id) {
-        this.id = id;
+    @Override
+    public void saveCustomer(CustomerDTO customerDTO) {
+        Customer customer = CustomerMapper.toEntity(customerDTO);
+        customerRepository.save(customer);
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public void updateCustomer(String id, CustomerDTO customerDTO) {
+        Customer customer = CustomerMapper.toEntity(customerDTO);
+        customer.setCustomerId(id);
+        customerRepository.save(customer);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public void deleteCustomer(String id) {
+        customerRepository.deleteById(id);
     }
 }

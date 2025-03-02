@@ -1,22 +1,14 @@
-package application.model;
+package application.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "sellers")
-public class Seller {
-
-    @Id
+public class SellerDTO {
     private String sellerId;
     private int sellerZipCodePrefix;
     private String sellerCity;
     private String sellerState;
 
-    public Seller() {}
+    public SellerDTO() {}
 
-    public Seller(String sellerId, int sellerZipCodePrefix, String sellerCity, String sellerState) {
+    public SellerDTO(String sellerId, int sellerZipCodePrefix, String sellerCity, String sellerState) {
         this.sellerId = sellerId;
         this.sellerZipCodePrefix = sellerZipCodePrefix;
         this.sellerCity = sellerCity;

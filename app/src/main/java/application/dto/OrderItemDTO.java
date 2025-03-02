@@ -1,42 +1,34 @@
-package application.dto;
+package application.mapper;
 
-public class OrderItemDTO {
-    private String id;
-    private String productId;
-    private Integer quantity;
+import application.dto.OrderItemDTO;
+import application.model.OrderItem;
 
-    // Construtor padrão
-    public OrderItemDTO() {}
+import java.time.LocalDateTime;
 
-    // Construtor com todos os campos
-    public OrderItemDTO(String id, String productId, Integer quantity) {
-        this.id = id;
-        this.productId = productId;
-        this.quantity = quantity;
+public class OrderItemMapper {
+    public static OrderItemDTO toDTO(OrderItem orderItem) {
+        if (orderItem == null) return null;
+        return new OrderItemDTO(
+            orderItem.getOrderId(),
+            orderItem.getOrderItemId(),
+            orderItem.getProductId(),
+            orderItem.getSellerId(),
+            orderItem.getShippingLimitDate(),
+            orderItem.getPrice(),
+            orderItem.getFreightValue()
+        );
     }
 
-    // Getters e Setters
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public static OrderItem toEntity(OrderItemDTO dto) {
+        if (dto == null) return null;
+        return new OrderItem(
+            dto.getOrderId(),
+            dto.getOrderItemId(),
+            dto.getProductId(),
+            dto.getSellerId(),
+            dto.getShippingLimitDate(),
+            dto.getPrice(),
+            dto.getFreightValue()
+        );
     }
 }

@@ -1,15 +1,15 @@
 package application.controller;
 
-import application.model.OrderItem;
+import application.dto.OrderItemDTO;
 import application.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/order-items")
 public class OrderItemController {
 
@@ -17,53 +17,32 @@ public class OrderItemController {
     private OrderItemService orderItemService;
 
     @GetMapping
-    public String getAllOrderItems(Model model) {
-        List<OrderItem> orderItems = orderItemService.getAllOrderItems();
-        model.addAttribute("orderItems", orderItems);
-        return "orderitem-list";
+    public ResponseEntity<List<OrderItemDTO>> getAllOrderItems() {
+        List<OrderItemDTO> orderItems = orderItemService.getAllOrderItems();
+        return new ResponseEntity<>(orderItems, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public String getOrderItemById(@PathVariable String id, Model model) {
-        OrderItem orderItem = orderItemService.getOrderItemById(id);
+    public ResponseEntity<OrderItemDTO> getOrderItemById(@PathVariable String id) {
+        OrderItemDTO orderItem = orderItemService.getOrderItemById(id);
         if (orderItem != null) {
-            model.addAttribute("orderItem", orderItem);
-            return "orderitem-detail";
+            return new ResponseEntity<>(orderItem, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return "redirect:/order-items";
     }
 
-    @GetMapping("/create")
-    public String createOrderItemForm(Model model) {
-        model.addAttribute("orderItem", new OrderItem());
-        return "orderitem-form";
+    @PostMapping
+    public ResponseEntity<OrderItemDTO> saveOrderItem(@RequestBody OrderItemDTO orderItemDTO) {
+        orderItemService.saveOrderItem(orderItemDTO);
+        return new ResponseEntity<>(orderItemDTO, HttpStatus.CREATED);
     }
 
-    @PostMapping("/create")
-    public String createOrderItem(@ModelAttribute OrderItem orderItem) {
-        orderItemService.saveOrderItem(orderItem);
-        return "redirect:/order-items";
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderItemDTO> updateOrderItem(@PathVariable String id, @RequestBody OrderItemDTO orderItemDTO) {
+        orderItemService.updateOrderItem(id, orderItemDTO);
+        return new ResponseEntity<>(orderItemDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/edit/{id}")
-    public String editOrderItemForm(@PathVariable String id, Model model) {
-        OrderItem orderItem = orderItemService.getOrderItemById(id);
-        if (orderItem != null) {
-            model.addAttribute("orderItem", orderItem);
-            return "orderitem-form";
-        }
-        return "redirect:/order-items";
-    }
-
-    @PostMapping("/edit")
-    public String editOrderItem(@ModelAttribute OrderItem orderItem) {
-        orderItemService.saveOrderItem(orderItem);
-        return "redirect:/order-items";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteOrderItem(@PathVariable String id) {
-        orderItemService.deleteOrderItem(id);
-        return "redirect:/order-items";
-    }
-}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteOrderItem(@PathVariable String

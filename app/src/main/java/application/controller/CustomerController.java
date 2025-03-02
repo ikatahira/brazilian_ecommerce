@@ -1,15 +1,15 @@
 package application.controller;
 
-import application.model.Customer;
+import application.dto.CustomerDTO;
 import application.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/customers")
 public class CustomerController {
 
@@ -17,53 +17,36 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping
-    public String getAllCustomers(Model model) {
-        List<Customer> customers = customerService.getAllCustomers();
-        model.addAttribute("customers", customers);
-        return "customer-list";
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
+        List<CustomerDTO> customers = customerService.getAllCustomers();
+        return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public String getCustomerById(@PathVariable String id, Model model) {
-        Customer customer = customerService.getCustomerById(id);
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable String id) {
+        CustomerDTO customer = customerService.getCustomerById(id);
         if (customer != null) {
-            model.addAttribute("customer", customer);
-            return "customer-detail";
+            return new ResponseEntity<>(customer, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return "redirect:/customers";
     }
 
-    @GetMapping("/create")
-    public String createCustomerForm(Model model) {
-        model.addAttribute("customer", new Customer());
-        return "customer-form";
+    @PostMapping
+    public ResponseEntity<CustomerDTO> saveCustomer(@RequestBody CustomerDTO customerDTO) {
+        customerService.saveCustomer(customerDTO);
+        return new ResponseEntity<>(customerDTO, HttpStatus.CREATED);
     }
 
-    @PostMapping("/create")
-    public String createCustomer(@ModelAttribute Customer customer) {
-        customerService.saveCustomer(customer);
-        return "redirect:/customers";
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable String id, @RequestBody CustomerDTO customerDTO) {
+        customerService.updateCustomer(id, customerDTO);
+        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/edit/{id}")
-    public String editCustomerForm(@PathVariable String id, Model model) {
-        Customer customer = customerService.getCustomerById(id);
-        if (customer != null) {
-            model.addAttribute("customer", customer);
-            return "customer-form";
-        }
-        return "redirect:/customers";
-    }
-
-    @PostMapping("/edit")
-    public String editCustomer(@ModelAttribute Customer customer) {
-        customerService.saveCustomer(customer);
-        return "redirect:/customers";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteCustomer(@PathVariable String id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteCustomer(@PathVariable String id) {
         customerService.deleteCustomer(id);
-        return "redirect:/customers";
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

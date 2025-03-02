@@ -1,15 +1,15 @@
 package application.controller;
 
-import application.model.Seller;
+import application.dto.SellerDTO;
 import application.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/sellers")
 public class SellerController {
 
@@ -17,53 +17,36 @@ public class SellerController {
     private SellerService sellerService;
 
     @GetMapping
-    public String getAllSellers(Model model) {
-        List<Seller> sellers = sellerService.getAllSellers();
-        model.addAttribute("sellers", sellers);
-        return "seller-list";
+    public ResponseEntity<List<SellerDTO>> getAllSellers() {
+        List<SellerDTO> sellers = sellerService.getAllSellers();
+        return new ResponseEntity<>(sellers, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public String getSellerById(@PathVariable String id, Model model) {
-        Seller seller = sellerService.getSellerById(id);
+    public ResponseEntity<SellerDTO> getSellerById(@PathVariable String id) {
+        SellerDTO seller = sellerService.getSellerById(id);
         if (seller != null) {
-            model.addAttribute("seller", seller);
-            return "seller-detail";
+            return new ResponseEntity<>(seller, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return "redirect:/sellers";
     }
 
-    @GetMapping("/create")
-    public String createSellerForm(Model model) {
-        model.addAttribute("seller", new Seller());
-        return "seller-form";
+    @PostMapping
+    public ResponseEntity<SellerDTO> saveSeller(@RequestBody SellerDTO sellerDTO) {
+        sellerService.saveSeller(sellerDTO);
+        return new ResponseEntity<>(sellerDTO, HttpStatus.CREATED);
     }
 
-    @PostMapping("/create")
-    public String createSeller(@ModelAttribute Seller seller) {
-        sellerService.saveSeller(seller);
-        return "redirect:/sellers";
+    @PutMapping("/{id}")
+    public ResponseEntity<SellerDTO> updateSeller(@PathVariable String id, @RequestBody SellerDTO sellerDTO) {
+        sellerService.updateSeller(id, sellerDTO);
+        return new ResponseEntity<>(sellerDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/edit/{id}")
-    public String editSellerForm(@PathVariable String id, Model model) {
-        Seller seller = sellerService.getSellerById(id);
-        if (seller != null) {
-            model.addAttribute("seller", seller);
-            return "seller-form";
-        }
-        return "redirect:/sellers";
-    }
-
-    @PostMapping("/edit")
-    public String editSeller(@ModelAttribute Seller seller) {
-        sellerService.saveSeller(seller);
-        return "redirect:/sellers";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteSeller(@PathVariable String id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteSeller(@PathVariable String id) {
         sellerService.deleteSeller(id);
-        return "redirect:/sellers";
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

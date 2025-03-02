@@ -1,7 +1,6 @@
 package application.exception;
-
-public class OrderNotFoundException extends RuntimeException {
-    public OrderNotFoundException(String message) {
+public class OrderReviewNotFoundException extends RuntimeException {
+    public   OrderReviewNotFoundException(String message) {
         super(message);
     }
 }

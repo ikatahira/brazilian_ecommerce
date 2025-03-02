@@ -47,4 +47,5 @@ public class Product {
     public void setProductDescriptionLength(int productDescriptionLength) {
         this.productDescriptionLength = productDescriptionLength;
     }
+    
 }

@@ -1,4 +1,4 @@
-package application.service;
+package application.service.impl;
 
 import application.model.Customer;
 import application.repository.CustomerRepository;

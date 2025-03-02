@@ -19,8 +19,11 @@ public class OrderItem {
     private BigDecimal price;
     private BigDecimal freightValue;
 
-    public OrderItem() {}
+    // Construtor padrão
+    public OrderItem() {
+    }
 
+    // Construtor completo
     public OrderItem(String orderId, Integer orderItemId, String productId, String sellerId, LocalDateTime shippingLimitDate, BigDecimal price, BigDecimal freightValue) {
         this.orderId = orderId;
         this.orderItemId = orderItemId;
@@ -31,24 +34,68 @@ public class OrderItem {
         this.freightValue = freightValue;
     }
 
-    public String getOrderId() { return orderId; }
-    public void setOrderId(String orderId) { this.orderId = orderId; }
+    // Getters e Setters
+    public String getOrderId() {
+        return orderId;
+    }
 
-    public Integer getOrderItemId() { return orderItemId; }
-    public void setOrderItemId(Integer orderItemId) { this.orderItemId = orderItemId; }
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
-    public String getProductId() { return productId; }
-    public void setProductId(String productId) { this.productId = productId; }
+    public Integer getOrderItemId() {
+        return orderItemId;
+    }
 
-    public String getSellerId() { return sellerId; }
-    public void setSellerId(String sellerId) { this.sellerId = sellerId; }
+    public void setOrderItemId(Integer orderItemId) {
+        this.orderItemId = orderItemId;
+    }
 
-    public LocalDateTime getShippingLimitDate() { return shippingLimitDate; }
-    public void setShippingLimitDate(LocalDateTime shippingLimitDate) { this.shippingLimitDate = shippingLimitDate; }
+    public String getProductId() {
+        return productId;
+    }
 
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
 
-    public BigDecimal getFreightValue() { return freightValue; }
-    public void setFreightValue(BigDecimal freightValue) { this.freightValue = freightValue; }
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public LocalDateTime getShippingLimitDate() {
+        return shippingLimitDate;
+    }
+
+    public void setShippingLimitDate(LocalDateTime shippingLimitDate) {
+        this.shippingLimitDate = shippingLimitDate;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getFreightValue() {
+        return freightValue;
+    }
+
+    public void setFreightValue(BigDecimal freightValue) {
+        this.freightValue = freightValue;
+    }
+
+    public String getId() {
+        return orderId;
+    }
+
+    public Integer getQuantity() {
+        return orderItemId;
+    }
 }

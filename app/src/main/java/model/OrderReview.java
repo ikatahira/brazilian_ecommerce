@@ -18,9 +18,11 @@ public class OrderReview {
     private LocalDateTime reviewCreationDate;
     private LocalDateTime reviewAnswerTimestamp;
 
-    // Construtores
-    public OrderReview() {}
+    // Construtor padrão
+    public OrderReview() {
+    }
 
+    // Construtor completo
     public OrderReview(String reviewId, String orderId, Integer reviewScore, String reviewCommentTitle, String reviewCommentMessage, LocalDateTime reviewCreationDate, LocalDateTime reviewAnswerTimestamp) {
         this.reviewId = reviewId;
         this.orderId = orderId;
@@ -32,24 +34,76 @@ public class OrderReview {
     }
 
     // Getters e Setters
-    public String getReviewId() { return reviewId; }
-    public void setReviewId(String reviewId) { this.reviewId = reviewId; }
 
-    public String getOrderId() { return orderId; }
-    public void setOrderId(String orderId) { this.orderId = orderId; }
+    public String getReviewId() {
+        return reviewId;
+    }
 
-    public Integer getReviewScore() { return reviewScore; }
-    public void setReviewScore(Integer reviewScore) { this.reviewScore = reviewScore; }
+    public void setReviewId(String reviewId) {
+        this.reviewId = reviewId;
+    }
 
-    public String getReviewCommentTitle() { return reviewCommentTitle; }
-    public void setReviewCommentTitle(String reviewCommentTitle) { this.reviewCommentTitle = reviewCommentTitle; }
+    public String getOrderId() {
+        return orderId;
+    }
 
-    public String getReviewCommentMessage() { return reviewCommentMessage; }
-    public void setReviewCommentMessage(String reviewCommentMessage) { this.reviewCommentMessage = reviewCommentMessage; }
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
-    public LocalDateTime getReviewCreationDate() { return reviewCreationDate; }
-    public void setReviewCreationDate(LocalDateTime reviewCreationDate) { this.reviewCreationDate = reviewCreationDate; }
+    public Integer getReviewScore() {
+        return reviewScore;
+    }
 
-    public LocalDateTime getReviewAnswerTimestamp() { return reviewAnswerTimestamp; }
-    public void setReviewAnswerTimestamp(LocalDateTime reviewAnswerTimestamp) { this.reviewAnswerTimestamp = reviewAnswerTimestamp; }
+    public void setReviewScore(Integer reviewScore) {
+        this.reviewScore = reviewScore;
+    }
+
+    public String getReviewCommentTitle() {
+        return reviewCommentTitle;
+    }
+
+    public void setReviewCommentTitle(String reviewCommentTitle) {
+        this.reviewCommentTitle = reviewCommentTitle;
+    }
+
+    public String getReviewCommentMessage() {
+        return reviewCommentMessage;
+    }
+
+    public void setReviewCommentMessage(String reviewCommentMessage) {
+        this.reviewCommentMessage = reviewCommentMessage;
+    }
+
+    public LocalDateTime getReviewCreationDate() {
+        return reviewCreationDate;
+    }
+
+    public void setReviewCreationDate(LocalDateTime reviewCreationDate) {
+        this.reviewCreationDate = reviewCreationDate;
+    }
+
+    public LocalDateTime getReviewAnswerTimestamp() {
+        return reviewAnswerTimestamp;
+    }
+
+    public void setReviewAnswerTimestamp(LocalDateTime reviewAnswerTimestamp) {
+        this.reviewAnswerTimestamp = reviewAnswerTimestamp;
+    }
+
+    public String getId() {
+        return reviewId;
+    }
+
+    public void setId(String reviewId) {
+        this.reviewId = reviewId;
+    }
+
+    public String getReviewText() {
+        return reviewCommentMessage;
+    }
+
+    public Integer getRating() {
+        return reviewScore;
+    }
 }

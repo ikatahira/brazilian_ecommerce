@@ -1,4 +1,3 @@
-// application/model/Customer.java
 package application.model;
 
 import jakarta.persistence.Entity;
@@ -12,9 +11,22 @@ public class Customer {
     @Id
     private String customerId;
     private String customerUniqueId;
-    private int customerZipCodePrefix;
+    private Integer customerZipCodePrefix;
     private String customerCity;
     private String customerState;
+
+    // Construtor padrão
+    public Customer() {
+    }
+
+    // Construtor completo
+    public Customer(String customerId, String customerUniqueId, Integer customerZipCodePrefix, String customerCity, String customerState) {
+        this.customerId = customerId;
+        this.customerUniqueId = customerUniqueId;
+        this.customerZipCodePrefix = customerZipCodePrefix;
+        this.customerCity = customerCity;
+        this.customerState = customerState;
+    }
 
     // Getters e Setters
     public String getCustomerId() {
@@ -33,11 +45,11 @@ public class Customer {
         this.customerUniqueId = customerUniqueId;
     }
 
-    public int getCustomerZipCodePrefix() {
+    public Integer getCustomerZipCodePrefix() {
         return customerZipCodePrefix;
     }
 
-    public void setCustomerZipCodePrefix(int customerZipCodePrefix) {
+    public void setCustomerZipCodePrefix(Integer customerZipCodePrefix) {
         this.customerZipCodePrefix = customerZipCodePrefix;
     }
 

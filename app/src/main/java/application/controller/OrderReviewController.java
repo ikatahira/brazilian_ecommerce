@@ -1,15 +1,18 @@
 package application.controller;
 
+import application.dto.OrderReviewDTO;
 import application.model.OrderReview;
 import application.service.OrderReviewService;
+import application.mapper.OrderReviewMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/order-reviews")
 public class OrderReviewController {
 
@@ -17,53 +20,39 @@ public class OrderReviewController {
     private OrderReviewService orderReviewService;
 
     @GetMapping
-    public String getAllOrderReviews(Model model) {
-        List<OrderReview> orderReviews = orderReviewService.getAllOrderReviews();
-        model.addAttribute("orderReviews", orderReviews);
-        return "orderreview-list";
+    public ResponseEntity<List<OrderReviewDTO>> getAllOrderReviews() {
+        List<OrderReviewDTO> orderReviews = orderReviewService.getAllOrderReviews();
+        return new ResponseEntity<>(orderReviews, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public String getOrderReviewById(@PathVariable String id, Model model) {
-        OrderReview orderReview = orderReviewService.getOrderReviewById(id);
-        if (orderReview != null) {
-            model.addAttribute("orderReview", orderReview);
-            return "orderreview-detail";
+    public ResponseEntity<OrderReviewDTO> getOrderReviewById(@PathVariable String id) {
+        OrderReviewDTO orderReviewDTO = orderReviewService.getOrderReviewById(id);
+        if (orderReviewDTO != null) {
+            return new ResponseEntity<>(orderReviewDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return "redirect:/order-reviews";
     }
 
-    @GetMapping("/create")
-    public String createOrderReviewForm(Model model) {
-        model.addAttribute("orderReview", new OrderReview());
-        return "orderreview-form";
-    }
-
-    @PostMapping("/create")
-    public String createOrderReview(@ModelAttribute OrderReview orderReview) {
+    @PostMapping
+    public ResponseEntity<OrderReviewDTO> createOrderReview(@RequestBody OrderReviewDTO orderReviewDTO) {
+        OrderReview orderReview = OrderReviewMapper.toEntity(orderReviewDTO);
         orderReviewService.saveOrderReview(orderReview);
-        return "redirect:/order-reviews";
+        return new ResponseEntity<>(OrderReviewMapper.toDTO(orderReview), HttpStatus.CREATED);
     }
 
-    @GetMapping("/edit/{id}")
-    public String editOrderReviewForm(@PathVariable String id, Model model) {
-        OrderReview orderReview = orderReviewService.getOrderReviewById(id);
-        if (orderReview != null) {
-            model.addAttribute("orderReview", orderReview);
-            return "orderreview-form";
-        }
-        return "redirect:/order-reviews";
-    }
-
-    @PostMapping("/edit")
-    public String editOrderReview(@ModelAttribute OrderReview orderReview) {
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderReviewDTO> updateOrderReview(@PathVariable String id, @RequestBody OrderReviewDTO orderReviewDTO) {
+        OrderReview orderReview = OrderReviewMapper.toEntity(orderReviewDTO);
+        orderReview.setId(id);
         orderReviewService.saveOrderReview(orderReview);
-        return "redirect:/order-reviews";
+        return new ResponseEntity<>(OrderReviewMapper.toDTO(orderReview), HttpStatus.OK);
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteOrderReview(@PathVariable String id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteOrderReview(@PathVariable String id) {
         orderReviewService.deleteOrderReview(id);
-        return "redirect:/order-reviews";
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

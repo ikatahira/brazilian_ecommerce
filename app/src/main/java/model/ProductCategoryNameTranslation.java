@@ -5,27 +5,44 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "product_category_name_translations")
+@Table(name = "product_category_name_translation")
 public class ProductCategoryNameTranslation {
 
     @Id
-    private String categoryId;
-    private String categoryEnglishName;
+    private String productCategoryName;
+    private String productCategoryNameEnglish;
+
+    // Construtor padrão
+    public ProductCategoryNameTranslation() {
+    }
+
+    // Construtor completo
+    public ProductCategoryNameTranslation(String productCategoryName, String productCategoryNameEnglish) {
+        this.productCategoryName = productCategoryName;
+        this.productCategoryNameEnglish = productCategoryNameEnglish;
+    }
 
     // Getters e Setters
-    public String getCategoryId() {
-        return categoryId;
+    public String getProductCategoryName() {
+        return productCategoryName;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setProductCategoryName(String productCategoryName) {
+        this.productCategoryName = productCategoryName;
     }
 
-    public String getCategoryEnglishName() {
-        return categoryEnglishName;
+    public String getProductCategoryNameEnglish() {
+        return productCategoryNameEnglish;
     }
 
-    public void setCategoryEnglishName(String categoryEnglishName) {
-        this.categoryEnglishName = categoryEnglishName;
+    public void setProductCategoryNameEnglish(String productCategoryNameEnglish) {
+        this.productCategoryNameEnglish = productCategoryNameEnglish;
+    }
+
+    public void setId(String id) {
+    }
+
+    public String getId() {
+        return productCategoryName;
     }
 }

@@ -1,69 +1,58 @@
 package application.controller;
 
+import application.dto.ProductCategoryNameTranslationDTO;
 import application.model.ProductCategoryNameTranslation;
 import application.service.ProductCategoryNameTranslationService;
+import application.mapper.ProductCategoryNameTranslationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/category-translations")
+@RestController
+@RequestMapping("/product-category-translations")
 public class ProductCategoryNameTranslationController {
 
     @Autowired
     private ProductCategoryNameTranslationService categoryTranslationService;
 
     @GetMapping
-    public String getAllCategoryTranslations(Model model) {
-        List<ProductCategoryNameTranslation> categories = categoryTranslationService.getAllCategoryTranslations();
-        model.addAttribute("categories", categories);
-        return "category-translation-list";
+    public ResponseEntity<List<ProductCategoryNameTranslationDTO>> getAllCategoryTranslations() {
+        List<ProductCategoryNameTranslationDTO> categories = categoryTranslationService.getAllCategoryTranslations();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public String getCategoryTranslationById(@PathVariable String id, Model model) {
-        ProductCategoryNameTranslation category = categoryTranslationService.getCategoryTranslationById(id);
+    public ResponseEntity<ProductCategoryNameTranslationDTO> getCategoryTranslationById(@PathVariable String id) {
+        ProductCategoryNameTranslationDTO category = categoryTranslationService.getCategoryTranslationById(id);
         if (category != null) {
-            model.addAttribute("category", category);
-            return "category-translation-detail";
+            return new ResponseEntity<>(category, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return "redirect:/category-translations";
     }
 
-    @GetMapping("/create")
-    public String createCategoryTranslationForm(Model model) {
-        model.addAttribute("category", new ProductCategoryNameTranslation());
-        return "category-translation-form";
-    }
-
-    @PostMapping("/create")
-    public String createCategoryTranslation(@ModelAttribute ProductCategoryNameTranslation category) {
+    @PostMapping
+    public ResponseEntity<ProductCategoryNameTranslationDTO> createCategoryTranslation(@RequestBody ProductCategoryNameTranslationDTO categoryDTO) {
+        ProductCategoryNameTranslation category = ProductCategoryNameTranslationMapper.toEntity(categoryDTO);
         categoryTranslationService.saveCategoryTranslation(category);
-        return "redirect:/category-translations";
+        return new ResponseEntity<>(ProductCategoryNameTranslationMapper.toDTO(category), HttpStatus.CREATED);
     }
 
-    @GetMapping("/edit/{id}")
-    public String editCategoryTranslationForm(@PathVariable String id, Model model) {
-        ProductCategoryNameTranslation category = categoryTranslationService.getCategoryTranslationById(id);
-        if (category != null) {
-            model.addAttribute("category", category);
-            return "category-translation-form";
-        }
-        return "redirect:/category-translations";
-    }
-
-    @PostMapping("/edit")
-    public String editCategoryTranslation(@ModelAttribute ProductCategoryNameTranslation category) {
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductCategoryNameTranslationDTO> updateCategoryTranslation(@PathVariable String id, @RequestBody ProductCategoryNameTranslationDTO categoryDTO) {
+        ProductCategoryNameTranslation category = ProductCategoryNameTranslationMapper.toEntity(categoryDTO);
+        category.setId(id);
         categoryTranslationService.saveCategoryTranslation(category);
-        return "redirect:/category-translations";
+        return new ResponseEntity<>(ProductCategoryNameTranslationMapper.toDTO(category), HttpStatus.OK);
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteCategoryTranslation(@PathVariable String id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteCategoryTranslation(@PathVariable String id) {
         categoryTranslationService.deleteCategoryTranslation(id);
-        return "redirect:/category-translations";
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

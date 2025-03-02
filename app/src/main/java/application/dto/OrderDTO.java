@@ -1,29 +1,15 @@
-package application.dto;
-
-import java.math.BigDecimal;
-
 public class OrderDTO {
-    private String id;
+    private String orderId;
     private String customerId;
-    private BigDecimal totalAmount;
-
-    // Construtor padrão
-    public OrderDTO() {}
-
-    // Construtor com todos os campos
-    public OrderDTO(String id, String customerId, BigDecimal totalAmount) {
-        this.id = id;
-        this.customerId = customerId;
-        this.totalAmount = totalAmount;
-    }
+    private String orderStatus; // Alterado para String
 
     // Getters e Setters
-    public String getId() {
-        return id;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getCustomerId() {
@@ -34,11 +20,11 @@ public class OrderDTO {
         this.customerId = customerId;
     }
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
+    public String getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

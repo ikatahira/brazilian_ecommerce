@@ -3,6 +3,7 @@ package application.service;
 import application.dto.ProductCategoryNameTranslationDTO;
 import java.util.List;
 
+
 public interface ProductCategoryNameTranslationService {
 
     /**

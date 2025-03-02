@@ -4,21 +4,20 @@ import application.dto.OrderDTO;
 import application.model.Order;
 
 public class OrderMapper {
+
     public static OrderDTO toDTO(Order order) {
-        if (order == null) {
-            return null;
-        }
-        return new OrderDTO(order.getId(), order.getCustomer().getId(), order.getTotalAmount());
+        OrderDTO dto = new OrderDTO();
+        dto.setOrderId(order.getOrderId());
+        dto.setCustomerId(order.getCustomerId());
+        dto.setOrderStatus(order.getOrderStatus());
+        return dto;
     }
 
-    public static Order toEntity(OrderDTO orderDTO) {
-        if (orderDTO == null) {
-            return null;
-        }
+    public static Order toEntity(OrderDTO dto) {
         Order order = new Order();
-        order.setId(orderDTO.getId());
-        // Assumindo que haja mecanismos para setar o Cliente a partir do ID
-        order.setTotalAmount(orderDTO.getTotalAmount());
+        order.setOrderId(dto.getOrderId());
+        order.setCustomerId(dto.getCustomerId());
+        order.setOrderStatus(dto.getOrderStatus());
         return order;
     }
 }

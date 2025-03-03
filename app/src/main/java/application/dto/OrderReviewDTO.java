@@ -1,13 +1,13 @@
 package application.dto;
 
-public class OrderReviewDTO {
+public class OrderReviewDTO  {
     private String id;
     private String orderId;
     private String reviewText;
     private Integer rating;
 
     // Construtor padrão
-    public OrderReviewDTO() {}
+    public OrderReviewDTO () {}
 
     // Construtor com todos os campos
     public OrderReviewDTO(String id, String orderId, String reviewText, Integer rating) {

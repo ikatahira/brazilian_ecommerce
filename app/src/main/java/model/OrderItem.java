@@ -19,6 +19,7 @@ public class OrderItem {
     private BigDecimal price;
     private BigDecimal freightValue;
 
+    
     // Construtor padrão
     public OrderItem() {
     }

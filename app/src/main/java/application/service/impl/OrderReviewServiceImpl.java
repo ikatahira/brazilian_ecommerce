@@ -1,13 +1,13 @@
 package application.service.impl;
 
-import application.exception.OrderReviewNotFoundException;
+import application.dto.OrderReviewDTO;
 import application.model.OrderReview;
 import application.repository.OrderReviewRepository;
 import application.service.OrderReviewService;
 import application.mapper.OrderReviewMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import application.dto.OrderDTO;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,9 +19,8 @@ public class OrderReviewServiceImpl implements OrderReviewService {
 
     @Override
     public OrderReviewDTO getOrderReviewById(String id) {
-        OrderReview orderReview = orderReviewRepository.findById(id)
-                .orElseThrow(() -> new OrderReviewNotFoundException("Order review not found with id: " + id));
-        return OrderReviewMapper.toDTO(orderReview);
+        OrderReview orderReview = orderReviewRepository.findById(id).orElse(null);
+        return (orderReview != null) ? OrderReviewMapper.toDTO(orderReview) : null;
     }
 
     @Override
@@ -32,15 +31,21 @@ public class OrderReviewServiceImpl implements OrderReviewService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public void saveOrderReview(OrderReview orderReview) {
-        orderReviewRepository.save(orderReview);
-    }
+  
 
     @Override
     public void deleteOrderReview(String id) {
-        OrderReview orderReview = orderReviewRepository.findById(id)
-                .orElseThrow(() -> new OrderReviewNotFoundException("Order review not found with id: " + id));
-        orderReviewRepository.delete(orderReview);
+        orderReviewRepository.deleteById(id);
     }
+
+    @Override
+    public void updateOrderReview(String id, OrderReviewDTO orderReviewDTO) {
+        OrderReview orderReview = orderReviewRepository.findById(id).orElse(null);
+        if (orderReview != null) {
+            OrderReview updatedOrderReview = OrderReviewMapper.toEntity(orderReviewDTO);
+            updatedOrderReview.setReviewId(orderReview.getReviewId());
+            orderReviewRepository.save(updatedOrderReview);
+        }
+    }
+
 }

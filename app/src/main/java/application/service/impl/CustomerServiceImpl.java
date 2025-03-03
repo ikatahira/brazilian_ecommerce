@@ -20,7 +20,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO getCustomerById(String id) {
         Customer customer = customerRepository.findById(id).orElse(null);
-        return CustomerMapper.toDTO(customer);
+        return (customer != null) ? CustomerMapper.toDTO(customer) : null;
     }
 
     @Override
@@ -41,4 +41,12 @@ public class CustomerServiceImpl implements CustomerService {
     public void deleteCustomer(String id) {
         customerRepository.deleteById(id);
     }
-}
+    @Override
+    public void updateCustomer(String id, CustomerDTO customerDTO) {
+        Customer customer = customerRepository.findById(id).orElse(null);
+        if (customer != null) {
+            Customer updatedCustomer = CustomerMapper.toEntity(customerDTO);
+            updatedCustomer.setCustomerId(customer.getCustomerId());
+            customerRepository.save(updatedCustomer);
+        }
+}}

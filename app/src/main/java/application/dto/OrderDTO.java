@@ -1,9 +1,30 @@
+// OrderDTO.java
+package application.dto;
+
+import java.time.LocalDateTime;
+
 public class OrderDTO {
     private String orderId;
     private String customerId;
-    private String orderStatus; // Alterado para String
+    private LocalDateTime orderPurchaseTimestamp;
+    private LocalDateTime orderApprovedAt;
+    private LocalDateTime orderDeliveredCarrierDate;
+    private LocalDateTime orderDeliveredCustomerDate;
+    private LocalDateTime orderEstimatedDeliveryDate;
 
-    // Getters e Setters
+    public OrderDTO() {
+    }
+
+    public OrderDTO(String orderId, String customerId, LocalDateTime orderPurchaseTimestamp, LocalDateTime orderApprovedAt, LocalDateTime orderDeliveredCarrierDate, LocalDateTime orderDeliveredCustomerDate, LocalDateTime orderEstimatedDeliveryDate) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.orderPurchaseTimestamp = orderPurchaseTimestamp;
+        this.orderApprovedAt = orderApprovedAt;
+        this.orderDeliveredCarrierDate = orderDeliveredCarrierDate;
+        this.orderDeliveredCustomerDate = orderDeliveredCustomerDate;
+        this.orderEstimatedDeliveryDate = orderEstimatedDeliveryDate;
+    }
+
     public String getOrderId() {
         return orderId;
     }
@@ -20,11 +41,43 @@ public class OrderDTO {
         this.customerId = customerId;
     }
 
-    public String getOrderStatus() {
-        return orderStatus;
+    public LocalDateTime getOrderPurchaseTimestamp() {
+        return orderPurchaseTimestamp;
     }
 
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setOrderPurchaseTimestamp(LocalDateTime orderPurchaseTimestamp) {
+        this.orderPurchaseTimestamp = orderPurchaseTimestamp;
+    }
+
+    public LocalDateTime getOrderApprovedAt() {
+        return orderApprovedAt;
+    }
+
+    public void setOrderApprovedAt(LocalDateTime orderApprovedAt) {
+        this.orderApprovedAt = orderApprovedAt;
+    }
+
+    public LocalDateTime getOrderDeliveredCarrierDate() {
+        return orderDeliveredCarrierDate;
+    }
+
+    public void setOrderDeliveredCarrierDate(LocalDateTime orderDeliveredCarrierDate) {
+        this.orderDeliveredCarrierDate = orderDeliveredCarrierDate;
+    }
+
+    public LocalDateTime getOrderDeliveredCustomerDate() {
+        return orderDeliveredCustomerDate;
+    }
+
+    public void setOrderDeliveredCustomerDate(LocalDateTime orderDeliveredCustomerDate) {
+        this.orderDeliveredCustomerDate = orderDeliveredCustomerDate;
+    }
+
+    public LocalDateTime getOrderEstimatedDeliveryDate() {
+        return orderEstimatedDeliveryDate;
+    }
+
+    public void setOrderEstimatedDeliveryDate(LocalDateTime orderEstimatedDeliveryDate) {
+        this.orderEstimatedDeliveryDate = orderEstimatedDeliveryDate;
     }
 }

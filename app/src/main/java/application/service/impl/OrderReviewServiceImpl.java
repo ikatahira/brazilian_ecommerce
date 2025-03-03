@@ -7,7 +7,7 @@ import application.service.OrderReviewService;
 import application.mapper.OrderReviewMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import application.dto.OrderDTO;
+//import application.dto.OrderDTO;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,12 +31,19 @@ public class OrderReviewServiceImpl implements OrderReviewService {
                 .collect(Collectors.toList());
     }
 
-  
+    @Override
+    public void saveOrderReview(OrderReviewDTO orderReviewDTO) {
+        OrderReview orderReview = OrderReviewMapper.toEntity(orderReviewDTO);
+        orderReviewRepository.save(orderReview);
+    }
+
 
     @Override
     public void deleteOrderReview(String id) {
         orderReviewRepository.deleteById(id);
     }
+
+    
 
     @Override
     public void updateOrderReview(String id, OrderReviewDTO orderReviewDTO) {

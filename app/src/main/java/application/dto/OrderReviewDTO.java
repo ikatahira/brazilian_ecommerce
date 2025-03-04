@@ -1,29 +1,23 @@
+// OrderReviewDTO.java
 package application.dto;
 
-public class OrderReviewDTO  {
-    private String id;
+import java.time.LocalDateTime;
+
+public class OrderReviewDTO {
+    private String reviewId;
     private String orderId;
-    private String reviewText;
-    private Integer rating;
+    private Integer reviewScore;
+    private String reviewCommentTitle;
+    private String reviewCommentMessage;
+    private LocalDateTime reviewCreationDate;
+    private LocalDateTime reviewAnswerTimestamp;
 
-    // Construtor padrão
-    public OrderReviewDTO () {}
-
-    // Construtor com todos os campos
-    public OrderReviewDTO(String id, String orderId, String reviewText, Integer rating) {
-        this.id = id;
-        this.orderId = orderId;
-        this.reviewText = reviewText;
-        this.rating = rating;
+    public String getReviewId() {
+        return reviewId;
     }
 
-    // Getters e Setters
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setReviewId(String reviewId) {
+        this.reviewId = reviewId;
     }
 
     public String getOrderId() {
@@ -34,19 +28,43 @@ public class OrderReviewDTO  {
         this.orderId = orderId;
     }
 
-    public String getReviewText() {
-        return reviewText;
+    public Integer getReviewScore() {
+        return reviewScore;
     }
 
-    public void setReviewText(String reviewText) {
-        this.reviewText = reviewText;
+    public void setReviewScore(Integer reviewScore) {
+        this.reviewScore = reviewScore;
     }
 
-    public Integer getRating() {
-        return rating;
+    public String getReviewCommentTitle() {
+        return reviewCommentTitle;
     }
 
-    public void setRating(Integer rating) {
-        this.rating = rating;
+    public void setReviewCommentTitle(String reviewCommentTitle) {
+        this.reviewCommentTitle = reviewCommentTitle;
+    }
+
+    public String getReviewCommentMessage() {
+        return reviewCommentMessage;
+    }
+
+    public void setReviewCommentMessage(String reviewCommentMessage) {
+        this.reviewCommentMessage = reviewCommentMessage;
+    }
+
+    public LocalDateTime getReviewCreationDate() {
+        return reviewCreationDate;
+    }
+
+    public void setReviewCreationDate(LocalDateTime reviewCreationDate) {
+        this.reviewCreationDate = reviewCreationDate;
+    }
+
+    public LocalDateTime getReviewAnswerTimestamp() {
+        return reviewAnswerTimestamp;
+    }
+
+    public void setReviewAnswerTimestamp(LocalDateTime reviewAnswerTimestamp) {
+        this.reviewAnswerTimestamp = reviewAnswerTimestamp;
     }
 }

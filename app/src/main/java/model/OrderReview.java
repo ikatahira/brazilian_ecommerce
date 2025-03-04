@@ -1,15 +1,9 @@
+// OrderReview.java
 package application.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "order_reviews")
 public class OrderReview {
-
-    @Id
     private String reviewId;
     private String orderId;
     private Integer reviewScore;
@@ -18,11 +12,9 @@ public class OrderReview {
     private LocalDateTime reviewCreationDate;
     private LocalDateTime reviewAnswerTimestamp;
 
-    // Construtor padrão
     public OrderReview() {
     }
 
-    // Construtor completo
     public OrderReview(String reviewId, String orderId, Integer reviewScore, String reviewCommentTitle, String reviewCommentMessage, LocalDateTime reviewCreationDate, LocalDateTime reviewAnswerTimestamp) {
         this.reviewId = reviewId;
         this.orderId = orderId;
@@ -33,8 +25,7 @@ public class OrderReview {
         this.reviewAnswerTimestamp = reviewAnswerTimestamp;
     }
 
-    // Getters e Setters
-
+    // Getters e setters
     public String getReviewId() {
         return reviewId;
     }
@@ -89,21 +80,5 @@ public class OrderReview {
 
     public void setReviewAnswerTimestamp(LocalDateTime reviewAnswerTimestamp) {
         this.reviewAnswerTimestamp = reviewAnswerTimestamp;
-    }
-
-    public String getId() {
-        return reviewId;
-    }
-
-    public void setId(String reviewId) {
-        this.reviewId = reviewId;
-    }
-
-    public String getReviewText() {
-        return reviewCommentMessage;
-    }
-
-    public Integer getRating() {
-        return reviewScore;
     }
 }

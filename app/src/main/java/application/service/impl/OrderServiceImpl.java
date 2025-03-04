@@ -1,21 +1,23 @@
-package application.service;
+package application.service.impl;
 
 import application.model.Order;
 import application.repository.OrderRepository;
+import application.service.OrderService;
+import application.exception.OrderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
-import application.exception.OrderNotFoundException;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    private final OrderRepository orderRepository;
-
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    private OrderRepository orderRepository;
+
+    @Override
+    public Order getOrderById(String id) {
+        return orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException("Order not found"));
     }
 
     @Override
@@ -24,18 +26,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getOrderById(String id) {
-        return orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException("Order not found"));
-    }
-
-    @Override
-    @Transactional
     public void saveOrder(Order order) {
         orderRepository.save(order);
     }
 
     @Override
-    @Transactional
     public void deleteOrder(String id) {
         orderRepository.deleteById(id);
     }

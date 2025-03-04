@@ -3,15 +3,32 @@ package application.model;
 
 import java.time.LocalDateTime;
 
-public class OrderReview {
-    private String reviewId;
-    private String orderId;
-    private Integer reviewScore;
-    private String reviewCommentTitle;
-    private String reviewCommentMessage;
-    private LocalDateTime reviewCreationDate;
-    private LocalDateTime reviewAnswerTimestamp;
+import jakarta.persistence.*;
+@Entity
+@Table(name = "order_review")
 
+public class OrderReview {
+    @Id
+    @Column(name = "review_id", nullable = false, unique = true)
+    private String reviewId;
+
+    @Column(name = "order_id", nullable = false)
+    private String orderId;
+
+    @Column(name = "review_score", nullable = false)
+    private Integer reviewScore;
+
+    @Column(name = "review_comment_title")
+    private String reviewCommentTitle;
+
+    @Column(name = "review_comment_message")
+    private String reviewCommentMessage;
+
+    @Column(name = "review_creation_date")
+    private LocalDateTime reviewCreationDate;
+
+    @Column(name = "review_answer_timestamp")
+    private LocalDateTime reviewAnswerTimestamp;
     public OrderReview() {
     }
 

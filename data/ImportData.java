@@ -6,18 +6,59 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class ImportData {
 
-    private static final String GITHUB_RAW_URL = "https://github.com/ikatahira/brazilian_ecommerce/tree/main/data"; // Substitua com a URL correta
+    private static final String GITHUB_RAW_URL = "https://raw.githubusercontent.com/ikatahira/brazilian_ecommerce/tree/main/data/"; // Substitua com a URL correta
     private static final String DB_URL = "jdbc:mysql://localhost:3306/brazilian_ecommerce"; // Ajuste se necessário
     private static final String DB_USER = "root"; // Ajuste se necessário
     private static final String DB_PASSWORD = "rootpass"; // Ajuste se necessário
 
     public static void main(String[] args) {
+        criarTabelas();
         importCustomers();
         importProducts();
         // Adicione os métodos para as demais tabelas
+    }
+
+    private static void criarTabelas() {
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement statement = connection.createStatement()) {
+
+            // Comando SQL para criar a tabela customers
+            String createCustomersTable = "CREATE TABLE IF NOT EXISTS customers (" +
+                    "customer_id VARCHAR(32) PRIMARY KEY," +
+                    "customer_unique_id VARCHAR(36)," +
+                    "customer_zip_code_prefix INT," +
+                    "customer_city VARCHAR(100)," +
+                    "customer_state CHAR(2)" +
+                    ")";
+
+            // Comando SQL para criar a tabela products
+            String createProductsTable = "CREATE TABLE IF NOT EXISTS products (" +
+                    "product_id VARCHAR(32) PRIMARY KEY," +
+                    "product_category_name VARCHAR(100)," +
+                    "product_name_length INT," +
+                    "product_description_length INT," +
+                    "product_photos_qty INT," +
+                    "product_weight_g DECIMAL(10,2)," +
+                    "product_length_cm DECIMAL(10,2)," +
+                    "product_height_cm DECIMAL(10,2)," +
+                    "product_width_cm DECIMAL(10,2)" +
+                    ")";
+
+            // Execute os comandos SQL
+            statement.executeUpdate(createCustomersTable);
+            statement.executeUpdate(createProductsTable);
+            // Adicione os comandos para criar as demais tabelas
+
+            System.out.println("Tabelas criadas com sucesso!");
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao criar as tabelas: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private static void importCustomers() {

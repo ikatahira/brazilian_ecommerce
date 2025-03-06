@@ -11,7 +11,7 @@ public class Customer {
     @Id
     private String customerId;
     private String customerUniqueId;
-    private Integer customerZipCodePrefix;
+    private String customerZipCodePrefix;
     private String customerCity;
     private String customerState;
 
@@ -20,7 +20,7 @@ public class Customer {
     }
 
     // Construtor completo
-    public Customer(String customerId, String customerUniqueId, Integer customerZipCodePrefix, String customerCity, String customerState) {
+    public Customer(String customerId, String customerUniqueId, String customerZipCodePrefix, String customerCity, String customerState) {
         this.customerId = customerId;
         this.customerUniqueId = customerUniqueId;
         this.customerZipCodePrefix = customerZipCodePrefix;
@@ -45,11 +45,11 @@ public class Customer {
         this.customerUniqueId = customerUniqueId;
     }
 
-    public Integer getCustomerZipCodePrefix() {
+    public String getCustomerZipCodePrefix() {
         return customerZipCodePrefix;
     }
 
-    public void setCustomerZipCodePrefix(Integer customerZipCodePrefix) {
+    public void setCustomerZipCodePrefix(String customerZipCodePrefix) {
         this.customerZipCodePrefix = customerZipCodePrefix;
     }
 

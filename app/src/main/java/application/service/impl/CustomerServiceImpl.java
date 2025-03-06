@@ -1,3 +1,4 @@
+// CustomerServiceImpl.java
 package application.service.impl;
 
 import application.dto.CustomerDTO;
@@ -41,6 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
     public void deleteCustomer(String id) {
         customerRepository.deleteById(id);
     }
+
     @Override
     public void updateCustomer(String id, CustomerDTO customerDTO) {
         Customer customer = customerRepository.findById(id).orElse(null);
@@ -49,4 +51,5 @@ public class CustomerServiceImpl implements CustomerService {
             updatedCustomer.setCustomerId(customer.getCustomerId());
             customerRepository.save(updatedCustomer);
         }
-}}
+    }
+}

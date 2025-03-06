@@ -16,10 +16,10 @@
 
         <div class="row">
             <div class="col-md-4">
-                <a href="listar_clientes.jsp" class="btn btn-primary btn-block">Listar Clientes</a>
+                <a href="/customers" class="btn btn-primary btn-block">Listar Clientes</a>
             </div>
             <div class="col-md-4">
-                <a href="listar_pedidos.jsp" class="btn btn-secondary btn-block">Listar Pedidos</a>
+                <a href="customers.jsp" class="btn btn-secondary btn-block">Llllllistar Pedidos</a>
             </div>
             <div class="col-md-4">
                 <a href="products" class="btn btn-success btn-block">Listar Produtos</a>

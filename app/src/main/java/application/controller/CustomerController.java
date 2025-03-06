@@ -1,52 +1,27 @@
-package application.controller;
-
-import application.dto.CustomerDTO;
-import application.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
+import application.service.CustomerService; // Importe o CustomerService
+import application.model.Customer; // Importe a entidade Customer
+import application.dto.CustomerDTO; // Importe o CustomerDTO
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.stream.Collectors;
+import application.mapper.CustomerMapper;
 
-@RestController
-@RequestMapping("/customers")
+@Controller
 public class CustomerController {
 
     @Autowired
-    private CustomerService customerService;
+    private CustomerService customerService; // Injete o CustomerService
 
-    @GetMapping
-    public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
-        List<CustomerDTO> customers = customerService.getAllCustomers();
-        return new ResponseEntity<>(customers, HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable String id) {
-        CustomerDTO customer = customerService.getCustomerById(id);
-        if (customer != null) {
-            return new ResponseEntity<>(customer, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping
-    public ResponseEntity<CustomerDTO> saveCustomer(@RequestBody CustomerDTO customerDTO) {
-        customerService.saveCustomer(customerDTO);
-        return new ResponseEntity<>(customerDTO, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable String id, @RequestBody CustomerDTO customerDTO) {
-        customerService.updateCustomer(id, customerDTO);
-        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteCustomer(@PathVariable String id) {
-        customerService.deleteCustomer(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @GetMapping("/customers")
+    public String getAllCustomers(Model model) {
+        List<CustomerDTO> customerDTOs = customerService.getAllCustomers(); // Use o CustomerService para buscar os clientes
+        List<Customer> customers = customerDTOs.stream()
+                .map(CustomerMapper::toEntity) // Converte CustomerDTO para Customer usando o CustomerMapper
+                .collect(Collectors.toList());
+        model.addAttribute("customers", customers);
+        return "customers"; // Nome do arquivo JSP (customers.jsp)
     }
 }
